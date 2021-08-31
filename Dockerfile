@@ -2,6 +2,8 @@
 
 FROM debian:buster
 
+ENV ARCH=armhf
+
 EXPOSE 25 587 2525
 
 # Preselections for installation
@@ -23,17 +25,17 @@ RUN set -x \
 
 # Install s6
 RUN set -x \
-  && S6_VERSION=2.8.0.0 \
-  && S6_CHECKSUM=c3985d90f4abad285b45b7fb6680ac02c266e08ccf85f9dc55123b2e2faf1579 \
-  && EXECLINE_VERSION=2.5.1.0 \
-  && EXECLINE_CHECKSUM=b26e6b4c09ddf0dc8162876376f5fbf0e807997513fd647dfa26de99cff29720 \
-  && SKAWARE_RELEASE=1.22.2 \
-  && curl -sSf -L https://github.com/just-containers/skaware/releases/download/v${SKAWARE_RELEASE}/s6-${S6_VERSION}-linux-amd64-bin.tar.gz -o /tmp/s6-${S6_VERSION}-linux-amd64-bin.tar.gz \
-  && curl -sSf -L https://github.com/just-containers/skaware/releases/download/v${SKAWARE_RELEASE}/execline-${EXECLINE_VERSION}-linux-amd64-bin.tar.gz -o /tmp/execline-${EXECLINE_VERSION}-linux-amd64-bin.tar.gz \
-  && printf "%s  %s\n" "${S6_CHECKSUM}" "s6-${S6_VERSION}-linux-amd64-bin.tar.gz" "${EXECLINE_CHECKSUM}" "execline-${EXECLINE_VERSION}-linux-amd64-bin.tar.gz" > /tmp/SHA256SUM \
+  && S6_VERSION=2.10.0.3 \
+  && S6_CHECKSUM=0891288b56a7afd12460f163d6968b5269e9816029a77765526e1267c032a64c \
+  && EXECLINE_VERSION=2.8.0.1 \
+  && EXECLINE_CHECKSUM=e3c25fa0a40e0206ba60462c1c9abdcb18f6f45d21fa3226bfcf98194da3ffd0 \
+  && SKAWARE_RELEASE=2.0.6 \
+  && curl -sSf -L https://github.com/just-containers/skaware/releases/download/v${SKAWARE_RELEASE}/s6-${S6_VERSION}-linux-${ARCH}-bin.tar.gz -o /tmp/s6-${S6_VERSION}-linux-${ARCH}-bin.tar.gz \
+  && curl -sSf -L https://github.com/just-containers/skaware/releases/download/v${SKAWARE_RELEASE}/execline-${EXECLINE_VERSION}-linux-${ARCH}-bin.tar.gz -o /tmp/execline-${EXECLINE_VERSION}-linux-${ARCH}-bin.tar.gz \
+  && printf "%s  %s\n" "${S6_CHECKSUM}" "s6-${S6_VERSION}-linux-${ARCH}-bin.tar.gz" "${EXECLINE_CHECKSUM}" "execline-${EXECLINE_VERSION}-linux-${ARCH}-bin.tar.gz" > /tmp/SHA256SUM \
   && ( cd /tmp; sha256sum -c SHA256SUM; ) \
-  && tar -C /usr -zxf /tmp/s6-${S6_VERSION}-linux-amd64-bin.tar.gz \
-  && tar -C /usr -zxf /tmp/execline-${EXECLINE_VERSION}-linux-amd64-bin.tar.gz \
+  && tar -C /usr -zxf /tmp/s6-${S6_VERSION}-linux-${ARCH}-bin.tar.gz \
+  && tar -C /usr -zxf /tmp/execline-${EXECLINE_VERSION}-linux-${ARCH}-bin.tar.gz \
   && rm -rf /tmp/* \
   ;
 
